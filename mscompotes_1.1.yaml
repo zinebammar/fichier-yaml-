@@ -1,0 +1,486 @@
+---
+swagger: "2.0"
+info:
+  description: "all exposed APIs"
+  version: "1.1"
+  title: "MSCOMPOTES"
+  termsOfService: "IBM"
+  contact:
+    name: "ICP & MICROSERVICES Team"
+  license:
+    name: "Apache License Version 2.0"
+    url: "https://www.apache.org/licenses/LICENSE-2.0"
+  x-ibm-name: "mscompotes"
+host: "localhost:8081"
+basePath: "/mscompotes"
+tags:
+- name: "client-controller"
+  description: "Client Controller"
+- name: "compte-controller"
+  description: "Compte Controller"
+- name: "transactions-controller"
+  description: "transactions Controller"
+paths:
+  /activeparclient/{id}:
+    get:
+      tags:
+      - "compte-controller"
+      summary: "getActiveComptesByClient"
+      operationId: "getActiveComptesByClientUsingGET"
+      produces:
+      - "*/*"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Compte"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+      parameters:
+      - $ref: "#/parameters/id"
+  /clients:
+    get:
+      tags:
+      - "client-controller"
+      summary: "getAll"
+      operationId: "getAllUsingGET"
+      produces:
+      - "*/*"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Client"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+    post:
+      tags:
+      - "client-controller"
+      summary: "newOne"
+      operationId: "newOneUsingPOST"
+      consumes:
+      - "application/json"
+      produces:
+      - "*/*"
+      parameters:
+      - in: "body"
+        name: "c"
+        description: "c"
+        required: true
+        schema:
+          $ref: "#/definitions/Client"
+      responses:
+        200:
+          description: "OK"
+        201:
+          description: "Created"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+  /clients/{id}:
+    get:
+      tags:
+      - "client-controller"
+      summary: "getOne"
+      operationId: "getOneUsingGET"
+      produces:
+      - "*/*"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Client"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+      parameters:
+      - $ref: "#/parameters/id"
+    parameters:
+    - $ref: "#/parameters/id"
+    put:
+      tags:
+      - "client-controller"
+      summary: "saveCompte"
+      operationId: "saveCompteUsingPUT"
+      consumes:
+      - "application/json"
+      produces:
+      - "*/*"
+      parameters:
+      - in: "body"
+        name: "c"
+        description: "c"
+        required: true
+        schema:
+          $ref: "#/definitions/Client"
+      - $ref: "#/parameters/id"
+      responses:
+        200:
+          description: "OK"
+        201:
+          description: "Created"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+  /compte:
+    post:
+      tags:
+      - "compte-controller"
+      summary: "newOne"
+      operationId: "newOneUsingPOST_1"
+      consumes:
+      - "application/json"
+      produces:
+      - "*/*"
+      parameters:
+      - in: "body"
+        name: "c"
+        description: "c"
+        required: true
+        schema:
+          $ref: "#/definitions/Compte"
+      responses:
+        200:
+          description: "OK"
+        201:
+          description: "Created"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+  /comptes:
+    get:
+      tags:
+      - "compte-controller"
+      summary: "getAll"
+      operationId: "getAllUsingGET_1"
+      produces:
+      - "*/*"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Compte"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+  /comptes/{rib}:
+    get:
+      tags:
+      - "compte-controller"
+      summary: "getOne"
+      operationId: "getOneUsingGET_1"
+      produces:
+      - "*/*"
+      parameters:
+      - $ref: "#/parameters/rib"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Compte"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+    parameters:
+    - $ref: "#/parameters/rib"
+    put:
+      tags:
+      - "compte-controller"
+      summary: "saveCompte"
+      operationId: "saveCompteUsingPUT_1"
+      consumes:
+      - "application/json"
+      produces:
+      - "*/*"
+      parameters:
+      - in: "body"
+        name: "c"
+        description: "c"
+        required: true
+        schema:
+          $ref: "#/definitions/Compte"
+      - name: "rib"
+        in: "path"
+        description: "rib"
+        required: true
+        type: "number"
+        format: "double"
+      responses:
+        200:
+          description: "OK"
+        201:
+          description: "Created"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+  /parclient/{id}:
+    get:
+      tags:
+      - "compte-controller"
+      summary: "getComptesByClient"
+      operationId: "getComptesByClientUsingGET"
+      produces:
+      - "*/*"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Compte"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+      parameters:
+      - $ref: "#/parameters/id"
+    parameters:
+    - $ref: "#/parameters/id"
+  /sold/{rib}:
+    get:
+      tags:
+      - "transactions-controller"
+      summary: "getSoldByCompte"
+      operationId: "getSoldByCompteUsingGET"
+      produces:
+      - "*/*"
+      parameters:
+      - name: "rib"
+        in: "path"
+        description: "rib"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "number"
+            format: "double"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+    parameters:
+    - $ref: "#/parameters/rib"
+  /transaction:
+    post:
+      tags:
+      - "transactions-controller"
+      summary: "newline"
+      operationId: "newlineUsingPOST"
+      consumes:
+      - "application/json"
+      produces:
+      - "*/*"
+      parameters:
+      - in: "body"
+        name: "t"
+        description: "t"
+        required: true
+        schema:
+          $ref: "#/definitions/Transaction"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Transaction"
+        201:
+          description: "Created"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+  /transactions/{rib}:
+    get:
+      tags:
+      - "transactions-controller"
+      summary: "getTransactionsByCompte"
+      operationId: "getTransactionsByCompteUsingGET"
+      produces:
+      - "*/*"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "object"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+      parameters:
+      - $ref: "#/parameters/rib"
+    parameters:
+    - $ref: "#/parameters/rib"
+definitions:
+  Client:
+    type: "object"
+    properties:
+      address:
+        type: "string"
+      cin:
+        type: "string"
+      datenaissance:
+        type: "string"
+        format: "date-time"
+      email:
+        type: "string"
+      emploi:
+        type: "string"
+      etatcivile:
+        type: "string"
+      fix:
+        type: "string"
+      id:
+        type: "integer"
+        format: "int64"
+      nationalite:
+        type: "string"
+      nom:
+        type: "string"
+      paye:
+        type: "string"
+      prenom:
+        type: "string"
+      tel:
+        type: "string"
+      ville:
+        type: "string"
+    title: "Client"
+  Compte:
+    type: "object"
+    properties:
+      client:
+        type: "integer"
+        format: "int64"
+      dateCreation:
+        type: "string"
+        format: "date-time"
+      etat:
+        type: "boolean"
+      rib:
+        type: "number"
+        format: "double"
+      sold:
+        type: "number"
+        format: "double"
+      type:
+        type: "string"
+    title: "Compte"
+  Transaction:
+    type: "object"
+    properties:
+      date:
+        type: "string"
+        format: "date-time"
+      destination:
+        type: "number"
+        format: "double"
+      id:
+        type: "integer"
+        format: "int64"
+      montant:
+        type: "number"
+        format: "double"
+      motif:
+        type: "string"
+      source:
+        type: "number"
+        format: "double"
+    title: "Transaction"
+x-ibm-configuration:
+  enforced: true
+  testable: true
+  phase: "realized"
+  cors:
+    enabled: true
+  assembly:
+    execute:
+    - invoke:
+        title: "tfem"
+        verb: "keep"
+        cache-response: "protocol"
+        cache-ttl: 900
+        stop-on-error: []
+        version: "1.0.0"
+        target-url: "ANDROID"
+    catch: []
+  properties:
+    server-endpoint:
+      value: "http://localhost:8081"
+      description: ""
+      encoded: false
+produces:
+- "application/json"
+parameters:
+  rib:
+    name: "rib"
+    type: "integer"
+    required: true
+    in: "path"
+    format: "int32"
+  id:
+    name: "id"
+    type: "integer"
+    required: true
+    in: "path"
+    format: "int32"
+schemes:
+- "https"
+- "http"

@@ -1,0 +1,1209 @@
+---
+swagger: "2.0"
+info:
+  description: "all exposed APIs"
+  version: "1.1"
+  title: "MSCREDITS"
+  termsOfService: "IBM"
+  contact:
+    name: "ICP & MICROSERVICES Team"
+  license:
+    name: "Apache License Version 2.0"
+    url: "https://www.apache.org/licenses/LICENSE-2.0"
+  x-ibm-name: "mscredits"
+host: "localhost:8082"
+basePath: "/mscredits"
+tags:
+- name: "credit-controller"
+  description: "operations to loans "
+- name: "etape-controller"
+  description: "operations to manage Steps of loans"
+- name: "produit-controller"
+  description: "operations to manage Products"
+- name: "simulation-controller"
+  description: "operations to manage Simulations"
+paths:
+  /credit:
+    post:
+      tags:
+      - "credit-controller"
+      summary: "create a new loan"
+      operationId: "createUsingPOST"
+      consumes:
+      - "application/json"
+      produces:
+      - "*/*"
+      parameters:
+      - in: "body"
+        name: "o"
+        description: "o"
+        required: true
+        schema:
+          $ref: "#/definitions/Credit"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Credit"
+        201:
+          description: "Created"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+    put:
+      tags:
+      - "credit-controller"
+      summary: "update a loan"
+      operationId: "updateUsingPUT"
+      consumes:
+      - "application/json"
+      produces:
+      - "*/*"
+      parameters:
+      - in: "body"
+        name: "o"
+        description: "o"
+        required: true
+        schema:
+          $ref: "#/definitions/Credit"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Credit"
+        201:
+          description: "Created"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+  /credit/{id}:
+    get:
+      tags:
+      - "credit-controller"
+      summary: "list details and steps of a loan"
+      operationId: "getOneUsingGET"
+      produces:
+      - "*/*"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "id"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Credit"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+  /credits:
+    get:
+      tags:
+      - "credit-controller"
+      summary: "list of all loans"
+      operationId: "getAllUsingGET"
+      produces:
+      - "*/*"
+      parameters:
+      - name: "offset"
+        in: "query"
+        required: false
+        type: "integer"
+        format: "int64"
+      - name: "pageNumber"
+        in: "query"
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "pageSize"
+        in: "query"
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "paged"
+        in: "query"
+        required: false
+        type: "boolean"
+      - name: "sort.sorted"
+        in: "query"
+        required: false
+        type: "boolean"
+      - name: "sort.unsorted"
+        in: "query"
+        required: false
+        type: "boolean"
+      - name: "unpaged"
+        in: "query"
+        required: false
+        type: "boolean"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Page«Credit»"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+  /credits/parclient/{id}:
+    get:
+      tags:
+      - "credit-controller"
+      summary: "find all loans that are made by a client"
+      operationId: "findAllByClientUsingGET"
+      produces:
+      - "*/*"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "id"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "offset"
+        in: "query"
+        required: false
+        type: "integer"
+        format: "int64"
+      - name: "pageNumber"
+        in: "query"
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "pageSize"
+        in: "query"
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "paged"
+        in: "query"
+        required: false
+        type: "boolean"
+      - name: "sort.sorted"
+        in: "query"
+        required: false
+        type: "boolean"
+      - name: "sort.unsorted"
+        in: "query"
+        required: false
+        type: "boolean"
+      - name: "unpaged"
+        in: "query"
+        required: false
+        type: "boolean"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Page«Credit»"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+  /credits/validation/{etape}:
+    get:
+      tags:
+      - "credit-controller"
+      summary: "find all loans that need to be validated in a specific step"
+      operationId: "findAllCreditWithNoValidationStepUsingGET"
+      produces:
+      - "*/*"
+      parameters:
+      - name: "etape"
+        in: "path"
+        description: "etape"
+        required: true
+        type: "string"
+      - name: "offset"
+        in: "query"
+        required: false
+        type: "integer"
+        format: "int64"
+      - name: "pageNumber"
+        in: "query"
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "pageSize"
+        in: "query"
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "paged"
+        in: "query"
+        required: false
+        type: "boolean"
+      - name: "sort.sorted"
+        in: "query"
+        required: false
+        type: "boolean"
+      - name: "sort.unsorted"
+        in: "query"
+        required: false
+        type: "boolean"
+      - name: "unpaged"
+        in: "query"
+        required: false
+        type: "boolean"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Page«Credit»"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+  /credits/validation/{etape}/sur/{montant}:
+    get:
+      tags:
+      - "credit-controller"
+      summary: "find all loans that need to be validated in a specific step and above\
+        \ a balance"
+      operationId: "findAllCreditWithNoValidationStepAndAboveALineUsingGET"
+      produces:
+      - "*/*"
+      parameters:
+      - name: "etape"
+        in: "path"
+        description: "etape"
+        required: true
+        type: "string"
+      - name: "montant"
+        in: "path"
+        description: "montant"
+        required: true
+        type: "number"
+        format: "double"
+      - name: "offset"
+        in: "query"
+        required: false
+        type: "integer"
+        format: "int64"
+      - name: "pageNumber"
+        in: "query"
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "pageSize"
+        in: "query"
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "paged"
+        in: "query"
+        required: false
+        type: "boolean"
+      - name: "sort.sorted"
+        in: "query"
+        required: false
+        type: "boolean"
+      - name: "sort.unsorted"
+        in: "query"
+        required: false
+        type: "boolean"
+      - name: "unpaged"
+        in: "query"
+        required: false
+        type: "boolean"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Page«Credit»"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+  /etape:
+    post:
+      tags:
+      - "etape-controller"
+      summary: "create new Step"
+      operationId: "createUsingPOST_1"
+      consumes:
+      - "application/json"
+      produces:
+      - "*/*"
+      parameters:
+      - in: "body"
+        name: "o"
+        description: "o"
+        required: true
+        schema:
+          $ref: "#/definitions/Etape"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Etape"
+        201:
+          description: "Created"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+    put:
+      tags:
+      - "etape-controller"
+      summary: "update a Step"
+      operationId: "updateUsingPUT_1"
+      consumes:
+      - "application/json"
+      produces:
+      - "*/*"
+      parameters:
+      - in: "body"
+        name: "o"
+        description: "o"
+        required: true
+        schema:
+          $ref: "#/definitions/Etape"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Etape"
+        201:
+          description: "Created"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+  /etape/{id}:
+    get:
+      tags:
+      - "etape-controller"
+      summary: "get details of a Step"
+      operationId: "getOneUsingGET_1"
+      produces:
+      - "*/*"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "id"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Etape"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+  /etapes:
+    get:
+      tags:
+      - "etape-controller"
+      summary: "list of all Step"
+      operationId: "getAllUsingGET_1"
+      produces:
+      - "*/*"
+      parameters:
+      - name: "offset"
+        in: "query"
+        required: false
+        type: "integer"
+        format: "int64"
+      - name: "pageNumber"
+        in: "query"
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "pageSize"
+        in: "query"
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "paged"
+        in: "query"
+        required: false
+        type: "boolean"
+      - name: "sort.sorted"
+        in: "query"
+        required: false
+        type: "boolean"
+      - name: "sort.unsorted"
+        in: "query"
+        required: false
+        type: "boolean"
+      - name: "unpaged"
+        in: "query"
+        required: false
+        type: "boolean"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Page«Etape»"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+  /produit:
+    post:
+      tags:
+      - "produit-controller"
+      summary: "create new Product"
+      operationId: "createUsingPOST_2"
+      consumes:
+      - "application/json"
+      produces:
+      - "*/*"
+      parameters:
+      - in: "body"
+        name: "o"
+        description: "o"
+        required: true
+        schema:
+          $ref: "#/definitions/Produit"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Produit"
+        201:
+          description: "Created"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+    put:
+      tags:
+      - "produit-controller"
+      summary: "update a Product"
+      operationId: "updateUsingPUT_2"
+      consumes:
+      - "application/json"
+      produces:
+      - "*/*"
+      parameters:
+      - in: "body"
+        name: "o"
+        description: "o"
+        required: true
+        schema:
+          $ref: "#/definitions/Produit"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Produit"
+        201:
+          description: "Created"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+  /produit/{id}:
+    get:
+      tags:
+      - "produit-controller"
+      summary: "get detail of a Product"
+      operationId: "getOneUsingGET_2"
+      produces:
+      - "*/*"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "id"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Produit"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+  /produits:
+    get:
+      tags:
+      - "produit-controller"
+      summary: "list of all Products"
+      operationId: "getAllUsingGET_2"
+      produces:
+      - "*/*"
+      parameters:
+      - name: "offset"
+        in: "query"
+        required: false
+        type: "integer"
+        format: "int64"
+      - name: "pageNumber"
+        in: "query"
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "pageSize"
+        in: "query"
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "paged"
+        in: "query"
+        required: false
+        type: "boolean"
+      - name: "sort.sorted"
+        in: "query"
+        required: false
+        type: "boolean"
+      - name: "sort.unsorted"
+        in: "query"
+        required: false
+        type: "boolean"
+      - name: "unpaged"
+        in: "query"
+        required: false
+        type: "boolean"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Page«Produit»"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+  /produits/parnom/{mc}:
+    get:
+      tags:
+      - "produit-controller"
+      summary: "find Products by name"
+      operationId: "findAllByNomUsingGET"
+      produces:
+      - "*/*"
+      parameters:
+      - name: "mc"
+        in: "path"
+        description: "mc"
+        required: true
+        type: "string"
+      - name: "offset"
+        in: "query"
+        required: false
+        type: "integer"
+        format: "int64"
+      - name: "pageNumber"
+        in: "query"
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "pageSize"
+        in: "query"
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "paged"
+        in: "query"
+        required: false
+        type: "boolean"
+      - name: "sort.sorted"
+        in: "query"
+        required: false
+        type: "boolean"
+      - name: "sort.unsorted"
+        in: "query"
+        required: false
+        type: "boolean"
+      - name: "unpaged"
+        in: "query"
+        required: false
+        type: "boolean"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Page«Produit»"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+  /simulation:
+    post:
+      tags:
+      - "simulation-controller"
+      summary: "create new Simulation"
+      operationId: "createUsingPOST_3"
+      consumes:
+      - "application/json"
+      produces:
+      - "*/*"
+      parameters:
+      - in: "body"
+        name: "o"
+        description: "o"
+        required: true
+        schema:
+          $ref: "#/definitions/Simulation"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Simulation"
+        201:
+          description: "Created"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+    put:
+      tags:
+      - "simulation-controller"
+      summary: "update a Simulation"
+      operationId: "updateUsingPUT_3"
+      consumes:
+      - "application/json"
+      produces:
+      - "*/*"
+      parameters:
+      - in: "body"
+        name: "o"
+        description: "o"
+        required: true
+        schema:
+          $ref: "#/definitions/Simulation"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Simulation"
+        201:
+          description: "Created"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+  /simulation/{id}:
+    get:
+      tags:
+      - "simulation-controller"
+      summary: "get details of a Simulation"
+      operationId: "getOneUsingGET_3"
+      produces:
+      - "*/*"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "id"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Simulation"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+  /simulations:
+    get:
+      tags:
+      - "simulation-controller"
+      summary: "list of all Simulations"
+      operationId: "getAllUsingGET_3"
+      produces:
+      - "*/*"
+      parameters:
+      - name: "offset"
+        in: "query"
+        required: false
+        type: "integer"
+        format: "int64"
+      - name: "pageNumber"
+        in: "query"
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "pageSize"
+        in: "query"
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "paged"
+        in: "query"
+        required: false
+        type: "boolean"
+      - name: "sort.sorted"
+        in: "query"
+        required: false
+        type: "boolean"
+      - name: "sort.unsorted"
+        in: "query"
+        required: false
+        type: "boolean"
+      - name: "unpaged"
+        in: "query"
+        required: false
+        type: "boolean"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Page«Simulation»"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+  /simulations/parclient/{id}:
+    get:
+      tags:
+      - "simulation-controller"
+      summary: "find simulation that are made by client"
+      operationId: "findAllByClientUsingGET_1"
+      produces:
+      - "*/*"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "id"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "offset"
+        in: "query"
+        required: false
+        type: "integer"
+        format: "int64"
+      - name: "pageNumber"
+        in: "query"
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "pageSize"
+        in: "query"
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "paged"
+        in: "query"
+        required: false
+        type: "boolean"
+      - name: "sort.sorted"
+        in: "query"
+        required: false
+        type: "boolean"
+      - name: "sort.unsorted"
+        in: "query"
+        required: false
+        type: "boolean"
+      - name: "unpaged"
+        in: "query"
+        required: false
+        type: "boolean"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Page«Simulation»"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+  /simulations/unknown:
+    get:
+      tags:
+      - "simulation-controller"
+      summary: "find simulations that are made by internautes"
+      operationId: "findAllByNomUsingGET_1"
+      produces:
+      - "*/*"
+      parameters:
+      - name: "offset"
+        in: "query"
+        required: false
+        type: "integer"
+        format: "int64"
+      - name: "pageNumber"
+        in: "query"
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "pageSize"
+        in: "query"
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "paged"
+        in: "query"
+        required: false
+        type: "boolean"
+      - name: "sort.sorted"
+        in: "query"
+        required: false
+        type: "boolean"
+      - name: "sort.unsorted"
+        in: "query"
+        required: false
+        type: "boolean"
+      - name: "unpaged"
+        in: "query"
+        required: false
+        type: "boolean"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Page«Simulation»"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+definitions:
+  Credit:
+    type: "object"
+    properties:
+      compteId:
+        type: "integer"
+        format: "int64"
+      date:
+        type: "string"
+        format: "date-time"
+      dateAnnulation:
+        type: "string"
+        format: "date-time"
+      etapes:
+        type: "array"
+        items:
+          $ref: "#/definitions/Etape"
+      id:
+        type: "integer"
+        format: "int64"
+      simulation:
+        $ref: "#/definitions/Simulation"
+    title: "Credit"
+  Etape:
+    type: "object"
+    properties:
+      confirmation:
+        type: "boolean"
+      credit:
+        $ref: "#/definitions/Credit"
+      date:
+        type: "string"
+        format: "date-time"
+      id:
+        type: "integer"
+        format: "int64"
+      message:
+        type: "string"
+      nom:
+        type: "string"
+      validateur:
+        type: "string"
+    title: "Etape"
+  Pageable:
+    type: "object"
+    properties:
+      offset:
+        type: "integer"
+        format: "int64"
+      pageNumber:
+        type: "integer"
+        format: "int32"
+      pageSize:
+        type: "integer"
+        format: "int32"
+      paged:
+        type: "boolean"
+      sort:
+        $ref: "#/definitions/Sort"
+      unpaged:
+        type: "boolean"
+    title: "Pageable"
+  Page«Credit»:
+    type: "object"
+    properties:
+      content:
+        type: "array"
+        items:
+          $ref: "#/definitions/Credit"
+      empty:
+        type: "boolean"
+      first:
+        type: "boolean"
+      last:
+        type: "boolean"
+      number:
+        type: "integer"
+        format: "int32"
+      numberOfElements:
+        type: "integer"
+        format: "int32"
+      pageable:
+        $ref: "#/definitions/Pageable"
+      size:
+        type: "integer"
+        format: "int32"
+      sort:
+        $ref: "#/definitions/Sort"
+      totalElements:
+        type: "integer"
+        format: "int64"
+      totalPages:
+        type: "integer"
+        format: "int32"
+    title: "Page«Credit»"
+  Page«Etape»:
+    type: "object"
+    properties:
+      content:
+        type: "array"
+        items:
+          $ref: "#/definitions/Etape"
+      empty:
+        type: "boolean"
+      first:
+        type: "boolean"
+      last:
+        type: "boolean"
+      number:
+        type: "integer"
+        format: "int32"
+      numberOfElements:
+        type: "integer"
+        format: "int32"
+      pageable:
+        $ref: "#/definitions/Pageable"
+      size:
+        type: "integer"
+        format: "int32"
+      sort:
+        $ref: "#/definitions/Sort"
+      totalElements:
+        type: "integer"
+        format: "int64"
+      totalPages:
+        type: "integer"
+        format: "int32"
+    title: "Page«Etape»"
+  Page«Produit»:
+    type: "object"
+    properties:
+      content:
+        type: "array"
+        items:
+          $ref: "#/definitions/Produit"
+      empty:
+        type: "boolean"
+      first:
+        type: "boolean"
+      last:
+        type: "boolean"
+      number:
+        type: "integer"
+        format: "int32"
+      numberOfElements:
+        type: "integer"
+        format: "int32"
+      pageable:
+        $ref: "#/definitions/Pageable"
+      size:
+        type: "integer"
+        format: "int32"
+      sort:
+        $ref: "#/definitions/Sort"
+      totalElements:
+        type: "integer"
+        format: "int64"
+      totalPages:
+        type: "integer"
+        format: "int32"
+    title: "Page«Produit»"
+  Page«Simulation»:
+    type: "object"
+    properties:
+      content:
+        type: "array"
+        items:
+          $ref: "#/definitions/Simulation"
+      empty:
+        type: "boolean"
+      first:
+        type: "boolean"
+      last:
+        type: "boolean"
+      number:
+        type: "integer"
+        format: "int32"
+      numberOfElements:
+        type: "integer"
+        format: "int32"
+      pageable:
+        $ref: "#/definitions/Pageable"
+      size:
+        type: "integer"
+        format: "int32"
+      sort:
+        $ref: "#/definitions/Sort"
+      totalElements:
+        type: "integer"
+        format: "int64"
+      totalPages:
+        type: "integer"
+        format: "int32"
+    title: "Page«Simulation»"
+  Produit:
+    type: "object"
+    properties:
+      date:
+        type: "string"
+        format: "date-time"
+      id:
+        type: "integer"
+        format: "int64"
+      nom:
+        type: "string"
+      simulations:
+        type: "array"
+        items:
+          $ref: "#/definitions/Simulation"
+      tauxMax:
+        type: "integer"
+        format: "int64"
+      tauxMin:
+        type: "integer"
+        format: "int64"
+    title: "Produit"
+  Simulation:
+    type: "object"
+    properties:
+      clientId:
+        type: "integer"
+        format: "int64"
+      credit:
+        $ref: "#/definitions/Credit"
+      duree:
+        type: "integer"
+        format: "int64"
+      id:
+        type: "integer"
+        format: "int64"
+      mensualite:
+        type: "number"
+        format: "double"
+      montant:
+        type: "number"
+        format: "double"
+      produit:
+        $ref: "#/definitions/Produit"
+      taux:
+        type: "integer"
+        format: "int64"
+    title: "Simulation"
+  Sort:
+    type: "object"
+    properties:
+      empty:
+        type: "boolean"
+      sorted:
+        type: "boolean"
+      unsorted:
+        type: "boolean"
+    title: "Sort"
+x-ibm-configuration:
+  enforced: true
+  testable: true
+  phase: "realized"
+  cors:
+    enabled: true
+  properties:
+    endpoint-server:
+      value: "http://localhost:8082"
+      description: ""
+      encoded: false
+  assembly:
+    execute:
+    - invoke:
+        title: "invoke"
+        timeout: 60
+        verb: "keep"
+        cache-response: "protocol"
+        cache-ttl: 900
+        stop-on-error: []
+        version: "1.0.0"
+        target-url: "$(api.properties.endpoint-server)$(request.path)"
+    catch: []
+schemes:
+- "http"
+- "https"

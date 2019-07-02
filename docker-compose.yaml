@@ -1,0 +1,41 @@
+version: '2'
+services:
+
+  mstransactions:
+    container_name: 'idb-transactions'
+    image: ibmdigitalbank/mstransactions
+    ports: 
+      - '8081:8080'
+    networks:
+      - digitalbank-project
+  
+  mscredits:
+    container_name: 'idb-credits'
+    image: ibmdigitalbank/mscredits
+    ports:
+      - '8082:8080'
+    networks:
+      - digitalbank-project
+
+  mscompotes:
+    container_name: 'idb-compotes'
+    image: ibmdigitalbank/mscomptes
+    ports:
+      - '8083:8080'
+    networks:
+      - digitalbank-project
+  
+  msdata:
+    container_name: 'mysql'
+    image: ibmdigitalbank/datacontainer
+    ports:
+      - '3306:3306'
+    networks:
+      - digitalbank-project
+    environment: 
+      - 'MYSQL_ROOT_PASSWORD=root'
+      - 'MYSQL_ALLOW_EMPTY_PASSWORD=true'
+
+networks:
+  digitalbank-project:
+    

@@ -1,0 +1,243 @@
+---
+swagger: "2.0"
+info:
+  description: "all exposed apis"
+  version: "1.1"
+  title: "MSTRANSACTIONS"
+  termsOfService: "Terms of service XXX"
+  contact:
+    name: "Hatim Heffoudhi "
+  license:
+    name: "Apache License Version 2.0"
+    url: "https://www.apache.org/licenses/LICENSE-2.0"
+  x-ibm-name: "mstransactions"
+host: "localhost:8080"
+basePath: "/mstransactions"
+tags:
+- name: "transactions-controller"
+  description: "operations to manage transactions"
+paths:
+  /:
+    get:
+      tags:
+      - "transactions-controller"
+      summary: "list of all transactions"
+      operationId: "getAllUsingGET"
+      produces:
+      - "*/*"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Transaction"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+  /parcompte/{rib}:
+    get:
+      tags:
+      - "transactions-controller"
+      summary: "list of all transactions by a account number"
+      operationId: "findByCompteUsingGET"
+      produces:
+      - "*/*"
+      parameters:
+      - name: "rib"
+        in: "path"
+        description: "rib"
+        required: true
+        type: "number"
+        format: "double"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Transaction"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+  /pardestination/{rib}:
+    get:
+      tags:
+      - "transactions-controller"
+      summary: "all transactions that are received by an account"
+      operationId: "findAllByDestinationContainsUsingGET"
+      produces:
+      - "*/*"
+      parameters:
+      - name: "rib"
+        in: "path"
+        description: "rib"
+        required: true
+        type: "number"
+        format: "double"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Transaction"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+  /parsource/{rib}:
+    get:
+      tags:
+      - "transactions-controller"
+      summary: "all transactions that are made by an account"
+      operationId: "findAllBySourceContainsUsingGET"
+      produces:
+      - "*/*"
+      parameters:
+      - name: "rib"
+        in: "path"
+        description: "rib"
+        required: true
+        type: "number"
+        format: "double"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Transaction"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+  /sold/{rib}:
+    get:
+      tags:
+      - "transactions-controller"
+      summary: "calculate the balance of an account."
+      operationId: "calculesoldUsingGET"
+      produces:
+      - "*/*"
+      parameters:
+      - name: "rib"
+        in: "path"
+        description: "rib"
+        required: true
+        type: "number"
+        format: "double"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "number"
+            format: "double"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+  /transaction:
+    post:
+      tags:
+      - "transactions-controller"
+      summary: "create new transaction"
+      operationId: "newOneUsingPOST"
+      consumes:
+      - "application/json"
+      produces:
+      - "*/*"
+      parameters:
+      - in: "body"
+        name: "t"
+        description: "t"
+        required: true
+        schema:
+          $ref: "#/definitions/Transaction"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Transaction"
+        201:
+          description: "Created"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      deprecated: false
+definitions:
+  Transaction:
+    type: "object"
+    properties:
+      date:
+        type: "string"
+        format: "date-time"
+        description: "The Id of the transaction"
+      destination:
+        type: "number"
+        format: "double"
+        description: "The Id of the transaction"
+      id:
+        type: "integer"
+        format: "int64"
+        description: "The Id of the transaction"
+      montant:
+        type: "number"
+        format: "double"
+        description: "The Id of the transaction"
+      motif:
+        type: "string"
+        description: "The Id of the transaction"
+      source:
+        type: "number"
+        format: "double"
+        description: "The Id of the transaction"
+    title: "Transaction"
+x-ibm-configuration:
+  enforced: true
+  testable: true
+  phase: "realized"
+  cors:
+    enabled: true
+  assembly:
+    execute:
+    - invoke:
+        title: "DCRL0100Scc8f3c1b-558b-499d-bbe3-8ba780b3d776"
+        verb: "keep"
+        cache-response: "protocol"
+        cache-ttl: 900
+        stop-on-error: []
+        version: "1.0.0"
+        cache-key: "10"
+        target-url: "$(api.properties.endpoint-server)$(request.path)"
+        username: "MOVIL"
+        password: "tfem"
+    catch: []
+  properties:
+    server-endpoint:
+      value: "http://localhost:8080"
+      description: ""
+      encoded: false
+schemes:
+- "http"
+- "https"
